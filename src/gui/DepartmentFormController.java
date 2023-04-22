@@ -1,21 +1,22 @@
 package gui;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.swing.text.html.parser.Entity;
-
 import db.DbException;
+import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Constraints;
 import gui.util.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import model.entities.Department;
 import model.services.DepartmentService;
 
@@ -23,7 +24,10 @@ public class DepartmentFormController implements Initializable {
 
 	
 	private Department entity;
+	
 	private DepartmentService service;
+	
+	private List<DataChangeListener> dataChangeListener = new ArrayList<>();
 	
 	@FXML
 	private TextField txtId;
@@ -49,6 +53,10 @@ public class DepartmentFormController implements Initializable {
 		this.service = service;
 	}
 	
+	public void SubscribeDataChangeListener(DataChangeListener listener) {		
+		dataChangeListener.add(listener);
+	}
+	
 	@FXML
 	public void onBtSaveAction(ActionEvent event) {
 		
@@ -61,6 +69,7 @@ public class DepartmentFormController implements Initializable {
 		try {
 			entity = getFormData();
 			service.saveOrUpdate(entity);
+			notifyDataChangeListeners();
 			Utils.currentStage(event).close();
 			
 		}catch (DbException e) {
@@ -69,6 +78,13 @@ public class DepartmentFormController implements Initializable {
 		
 	}
 	
+	private void notifyDataChangeListeners() {
+		for(DataChangeListener listener : dataChangeListener) {
+			listener.onDataChanged();
+		}
+		
+	}
+
 	private Department getFormData() {
 		Department obj = new Department();
 		obj.setId(gui.util.Utils.tryParseToInt(txtId.getText()));

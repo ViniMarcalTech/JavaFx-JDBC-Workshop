@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.mysql.cj.jdbc.result.UpdatableResultSet;
+
 import application.Main;
+import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -50,8 +53,7 @@ public class MainViewController implements Initializable {
 
 	@Override
 	public void initialize(URL url , ResourceBundle rb) {
-		// TODO Auto-generated method stub
-		
+				
 	}
 	
 	
@@ -77,6 +79,6 @@ public class MainViewController implements Initializable {
 			Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
 		}
 	}
-	
+
 
 }
