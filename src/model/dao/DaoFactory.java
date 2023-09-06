@@ -1,16 +1,23 @@
 package model.dao;
 
 import db.DB;
-import model.dao.impl.DepartmentDaoJDBC;
-import model.dao.impl.SellerDaoJDBC;
+import model.dao.impl.AniversariantesDaoJDBC;
+import model.dao.impl.GradDaoJDBC;
+import model.dao.impl.OmDaoJDBC;
 
 public class DaoFactory {
 
-	public static SellerDao createSellerDao() {
-		return new SellerDaoJDBC(DB.getConnection());
+		
+	public static AniversariantesDaoJDBC createAniversariantesDao()   {		
+			return new AniversariantesDaoJDBC(DB.getConnection());
 	}
 	
-	public static DepartmentDao createDepartmentDao() {
-		return new DepartmentDaoJDBC(DB.getConnection());
+	public static GradDao createGradDao() {
+		return new GradDaoJDBC(DB.getConnection());
 	}
+	
+	public static OmDao createOmDao() {
+		return new OmDaoJDBC(DB.getConnection());
+	}
+
 }

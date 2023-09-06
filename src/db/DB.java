@@ -17,11 +17,17 @@ public class DB {
 		if (conn == null) {
 			try {
 				Properties props = loadProperties();
+				
+				Class.forName("com.mysql.jdbc.Driver");
 				String url = props.getProperty("dburl");
 				conn = DriverManager.getConnection(url, props);
+
 			}
 			catch (SQLException e) {
 				throw new DbException(e.getMessage());
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		return conn;
